@@ -24,7 +24,7 @@ contract TokenICO {
     }
 
     constructor() {
-
+        owner = msg.sender;
     }
 
     function updateToken() {
