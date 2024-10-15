@@ -53,8 +53,17 @@ contract TokenICO {
         soldTokens += _tokenAmount;
     }
 
-    function getTokenDetails() {
+    function getTokenDetails() public view returns(string memory name, string memory symbol, uint256 balance, uint256 supply, uint256 tokenPrice, address tokenAddr) {
+        ERC20 token = ERC20(tokenAddress);
 
+        return(
+            token.name(),
+            token.symbol(),
+            token.balanceOf(address(this)),
+            token.totalSupply(),
+            tokenSalePrice,
+            tokenAddress
+        )
     }
 
     function transferToOwner() {
