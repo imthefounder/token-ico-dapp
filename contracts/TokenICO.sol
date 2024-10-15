@@ -35,8 +35,8 @@ contract TokenICO {
         tokenSalePrice = _tokenSalePrice;
     }
 
-    function multiply() {
-
+    function multiply(uint256 x, uint256 y) internal pure returns(uint256 z) {
+        require(y != 0 || (z = x * y) / y == x);
     }
 
     function buyToken() {
