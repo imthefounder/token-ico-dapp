@@ -27,12 +27,12 @@ contract TokenICO {
         owner = msg.sender;
     }
 
-    function updateToken(address _tokenAddress) public onlyOwner() {
+    function updateToken(address _tokenAddress) public onlyOwner {
         tokenAddress = _tokenAddress;
     }
 
-    function updateTokenSalePrice() {
-
+    function updateTokenSalePrice(uint256 _tokenSalePrice) public onlyOwner {
+        tokenSalePrice = _tokenSalePrice;
     }
 
     function multiply() {
