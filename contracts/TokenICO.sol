@@ -74,8 +74,12 @@ contract TokenICO {
         require(success, "Transaction failed");
     }
 
-    function transferEther() {
+    function transferEther(address payable _reciever, uint256 _amount) external payable {
+         require(msg.value >= _amount, "Insufficient funds sent");
 
+         (bool success,) = _reciever.call{value: _amount}("");
+
+         require(success, "Transaction failed");
     }
 
     function withdrawAllTokens() {
