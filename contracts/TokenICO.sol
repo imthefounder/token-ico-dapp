@@ -75,15 +75,21 @@ contract TokenICO {
     }
 
     function transferEther(address payable _reciever, uint256 _amount) external payable {
-         require(msg.value >= _amount, "Insufficient funds sent");
+        require(msg.value >= _amount, "Insufficient funds sent");
 
-         (bool success,) = _reciever.call{value: _amount}("");
+        (bool success,) = _reciever.call{value: _amount}("");
 
-         require(success, "Transaction failed");
+        require(success, "Transaction failed");
     }
 
-    function withdrawAllTokens() {
+    function withdrawAllTokens() public onlyOwner {
+        ERC20 token = ERC20(tokenAddress);
 
+        uint256 balance = token.balanceOf(address(this));
+
+        require(balance > 0, "No token to withdraw");
+
+        require(token.transfer(owner, balance), "Transaction failed");
     }
     
 }
