@@ -63,11 +63,15 @@ contract TokenICO {
             token.totalSupply(),
             tokenSalePrice,
             tokenAddress
-        )
+        ):
     }
 
-    function transferToOwner() {
+    function transferToOwner(uint256 _amount) external payable {
+        require(msg.value >= _amount, "Insufficient funds sent");
 
+        (bool success,) = owner.call{value: _amount}("");
+
+        require(success, "Transaction failed");
     }
 
     function transferEther() {
