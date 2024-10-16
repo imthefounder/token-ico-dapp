@@ -237,3 +237,21 @@ export const ERC20 = async () => {
     console.log(error);
   }
 };
+
+export const ERC20_CONTRACT = async () => {
+  try {
+    const web3Modal = new Web3Modal();
+
+    const connection = await web3Modal.connect();
+
+    const provider = new ethers.providers.Web3Provider(connection);
+
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(CONTRACT_ADDRESS, ERC20_ABI, signer);
+
+    return contract;
+  } catch (error) {
+    console.log(error);
+  }
+};
