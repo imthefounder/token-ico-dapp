@@ -193,3 +193,47 @@ export const TOKEN_ICO_CONTRACT = async () => {
     console.log(error);
   }
 };
+
+export const ERC20 = async () => {
+  try {
+    const web3Modal = new Web3Modal();
+
+    const connection = await web3Modal.connect();
+
+    const provider = new ethers.providers.Web3Provider(connection);
+
+    const network = await provider.getNetwork();
+
+    const signer = await provider.getSigner();
+
+    const userAddress = signer.getAddress();
+
+    const balance = await contract.balanceOf(userAddress);
+
+    const name = await contract.name();
+
+    const symbol = await contract.symbol();
+
+    const supply = await contract.totalSupply();
+
+    const decimals = await contract.decimals();
+
+    const address = await contract.address;
+
+    const token = {
+      address: address,
+      name: name,
+      symbol: symbol,
+      decimals: decimals,
+      supply: ethers.utils.formatEther(supply.toString()),
+      balance: ethers.utils.formatEther(balance.toString()),
+      chianId: network.chainId,
+    };
+
+    console.log(token);
+
+    return token;
+  } catch (error) {
+    console.log(error);
+  }
+};
