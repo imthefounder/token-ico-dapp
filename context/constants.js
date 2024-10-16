@@ -119,6 +119,7 @@ const tokenImage =
 const changeNetwork = async ({ networkName }) => {
   try {
     if (!window.ethereum) throw new Error("No crypto wallet found");
+
     await window.ethereum.request({
       method: "wallet_addEthereumChain",
       params: [
@@ -133,6 +134,23 @@ const changeNetwork = async ({ networkName }) => {
 };
 
 export const handleNetworkSwitch = async () => {
-  const networkName = "";
+  const networkName = " holesky";
+
   await changeNetwork({ networkName });
+};
+
+export const CHECK_CONNECTED_WALLET = async () => {
+  if (!window.ethereum) return console.log("Please Install Metamask");
+
+  await handleNetworkSwitch();
+
+  const account = await window.ethereum.request({
+    method: "eth_accounts",
+  });
+
+  if (account.length) {
+    return account[0];
+  } else {
+    console.log("Please Install Metamask, Connect & Reload");
+  }
 };
