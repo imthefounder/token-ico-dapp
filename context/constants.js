@@ -154,3 +154,21 @@ export const CHECK_CONNECTED_WALLET = async () => {
     console.log("Please Install Metamask, Connect & Reload");
   }
 };
+
+export const CONNECT_WALLET = async () => {
+  try {
+    if (!window.ethereum) return console.log("Please Install Metamask");
+
+    await handleNetworkSwitch();
+
+    const account = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+
+    window.location.reload();
+
+    return account[0];
+  } catch (error) {
+    console.log(error);
+  }
+};
