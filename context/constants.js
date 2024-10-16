@@ -175,3 +175,21 @@ export const CONNECT_WALLET = async () => {
 
 const fetchContract = (address, abi, signer) =>
   new ethers.Contract(address, abi, signer);
+
+export const TOKEN_ICO_CONTRACT = async () => {
+  try {
+    const web3Modal = new Web3Modal();
+
+    const connection = await web3Modal.connect();
+
+    const provider = new ethers.providers.Web3Provider(connection);
+
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+    return contract;
+  } catch (error) {
+    console.log(error);
+  }
+};
