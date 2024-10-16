@@ -172,3 +172,6 @@ export const CONNECT_WALLET = async () => {
     console.log(error);
   }
 };
+
+const fetchContract = (address, abi, signer) =>
+  new ethers.Contract(address, abi, signer);
