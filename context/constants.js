@@ -131,3 +131,8 @@ const changeNetwork = async ({ networkName }) => {
     console.log(err.message);
   }
 };
+
+export const handleNetworkSwitch = async () => {
+  const networkName = "";
+  await changeNetwork({ networkName });
+};
