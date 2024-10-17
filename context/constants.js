@@ -255,3 +255,21 @@ export const ERC20_CONTRACT = async (CONTRACT_ADDRESS) => {
     console.log(error);
   }
 };
+
+export const GET_BALANCE = async () => {
+  try {
+    const web3Modal = new Web3Modal();
+
+    const connection = await web3Modal.connect();
+
+    const provider = new ethers.providers.Web3Provider(connection);
+
+    const signer = provider.getSigner();
+
+    const maticBal = await signer.getBalance();
+
+    return ethers.utils.formatEther(maticBal.toString());
+  } catch (error) {
+    console.log(error);
+  }
+};
