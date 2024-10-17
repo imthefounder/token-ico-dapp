@@ -238,7 +238,7 @@ export const ERC20 = async () => {
   }
 };
 
-export const ERC20_CONTRACT = async () => {
+export const ERC20_CONTRACT = async (CONTRACT_ADDRESS) => {
   try {
     const web3Modal = new Web3Modal();
 
