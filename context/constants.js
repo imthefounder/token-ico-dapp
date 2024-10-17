@@ -273,3 +273,19 @@ export const GET_BALANCE = async () => {
     console.log(error);
   }
 };
+
+export const CHECK_ACCOUNT_BALANCE = async (ADDRESS) => {
+  try {
+    const web3Modal = new Web3Modal();
+
+    const connection = await web3Modal.connect();
+
+    const provider = new ethers.providers.Web3Provider(connection);
+
+    const maticBal = await provider.getBalance(ADDRESS);
+
+    return ethers.utils.formatEther(maticBal.toString());
+  } catch (error) {
+    console.log(error);
+  }
+};
