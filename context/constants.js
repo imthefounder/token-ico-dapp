@@ -9,7 +9,7 @@ export const TOKEN_ADDRESS = "";
 export const ERC20_ABI = "";
 export const OWNER_ADDRESS = "";
 export const CONTRACT_ADDRESS = "";
-export const CONTRACT_ABI = token.abi;
+export const CONTRACT_ABI = "";
 
 const networks = {
   sepolia: {
@@ -140,7 +140,7 @@ export const handleNetworkSwitch = async () => {
 };
 
 export const CHECK_CONNECTED_WALLET = async () => {
-  if (!window.ethereum) return console.log("Please Install Metamask");
+  if (!window.ethereum) return console.log("Please install Metamask");
 
   await handleNetworkSwitch();
 
@@ -151,13 +151,13 @@ export const CHECK_CONNECTED_WALLET = async () => {
   if (account.length) {
     return account[0];
   } else {
-    console.log("Please Install Metamask, Connect & Reload");
+    console.log("Please install Metamask, connect & reload");
   }
 };
 
 export const CONNECT_WALLET = async () => {
   try {
-    if (!window.ethereum) return console.log("Please Install Metamask");
+    if (!window.ethereum) return console.log("Please install Metamask");
 
     await handleNetworkSwitch();
 
@@ -287,5 +287,44 @@ export const CHECK_ACCOUNT_BALANCE = async (ADDRESS) => {
     return ethers.utils.formatEther(maticBal.toString());
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const addTokenToMetamask = async () => {
+  if (window.ethereum) {
+    const tokenDetails = await ERC20(TOKEN_ADDRESS);
+
+    const tokenDecimals = tokenDetails?.decimals;
+
+    const tokenAddress = TOKEN_ADDRESS;
+
+    const tokenSymbol = tokenDetails?.symbol;
+
+    const tokenImage = "";
+
+    try {
+      const wasAdded = await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20",
+          options: {
+            address: tokenAddress,
+            symbol: tokenSymbol,
+            decimals: tokenDecimals,
+            image: tokenImage,
+          },
+        },
+      });
+
+      if (wasAdded) {
+        return "Token added successfully!";
+      } else {
+        return "Token not added";
+      }
+    } catch (error) {
+      return "Failed to add token";
+    }
+  } else {
+    return "Metamask is not installed";
   }
 };
