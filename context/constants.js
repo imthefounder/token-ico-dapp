@@ -23,6 +23,7 @@ const networks = {
     rpcUrls: ["https://sepolia.infura.io/v3/"],
     blockExplorerUrls: ["https://sepolia.etherscan.io"],
   },
+
   holesky: {
     chainId: `0x${Number(17000).toString(16)}`,
     chainName: "Holesky",
@@ -34,6 +35,7 @@ const networks = {
     rpcUrls: ["https://rpc.ankr.com/eth_holesky"],
     blockExplorerUrls: ["https://holesky.etherscan.io/"],
   },
+
   polygon_amoy: {
     chainId: `0x${Number(80002).toString(16)}`,
     chainName: "Polygon Amoy",
@@ -45,6 +47,7 @@ const networks = {
     rpcUrls: ["https://rpc-amoy.polygon.technology/"],
     blockExplorerUrls: ["https://www.oklink.com/amoy"],
   },
+
   polygon_mumbai: {
     chainId: `0x${Number(80001).toString(16)}`,
     chainName: "Polygon Mumbai",
@@ -56,6 +59,7 @@ const networks = {
     rpcUrls: ["https://rpc.ankr.com/polygon_mumbai"],
     blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
   },
+
   polygon: {
     chainId: `0x${Number(137).toString(16)}`,
     chainName: "Polygon Mainnet",
@@ -67,6 +71,7 @@ const networks = {
     rpcUrls: ["https://rpc.ankr.com/polygon"],
     blockExplorerUrls: ["https://polygonscan.com/"],
   },
+
   bsc: {
     chainId: `0x${Number(56).toString(16)}`,
     chainName: "Binance Smart Chain Mainnet",
@@ -78,6 +83,7 @@ const networks = {
     rpcUrls: ["https://rpc.ankr.com/bsc"],
     blockExplorerUrls: ["https://bscscan.com"],
   },
+
   base_mainnet: {
     chainId: `0x${Number(8453).toString(16)}`,
     chainName: "Base Mainnet",
@@ -89,6 +95,7 @@ const networks = {
     rpcUrls: ["https://mainnet.base.org/"],
     blockExplorerUrls: ["https://bscscan.com"],
   },
+
   base_sepolia: {
     chainId: `0x${Number(84532).toString(16)}`,
     chainName: "Base Sepolia",
@@ -100,6 +107,7 @@ const networks = {
     rpcUrls: ["https://sepolia.base.org"],
     blockExplorerUrls: ["https://bscscan.com"],
   },
+
   localhost: {
     chainId: `0x${Number(31337).toString(16)}`,
     chainName: "localhost",
