@@ -321,4 +321,31 @@ export const TOKEN_ICO_Provider = ({ children }) => {
       setLoader(false);
     }
   };
+
+  return (
+    <TOKEN_ICO_Context.Provider
+      value={{
+        TOKEN_ICO,
+        BUY_TOKEN,
+        TRANSFER_ETHER,
+        DONATE,
+        UPDATE_TOKEN,
+        UPDATE_TOKEN_PRICE,
+        TOKEN_WITHDRAW,
+        TRANSFER_TOKEN,
+        CONNECT_WALLET,
+        ERC20,
+        CHECK_ACCOUNT_BALANCE,
+        setAccount,
+        setLoader,
+        addTokenToMetamask,
+        TOKEN_ADDRESS,
+        loader,
+        account,
+        currency,
+      }}
+    >
+      {children}
+    </TOKEN_ICO_Context.Provider>
+  );
 };
