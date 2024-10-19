@@ -40,7 +40,7 @@ contract TokenICO {
     }
 
     function buyToken(uint256 _tokenAmount) public payable {
-        require(msg.value == multiply(_tokenAmount, _tokenSalePrice), "Insufficient Ether provided for this purchase");
+        require(msg.value == multiply(_tokenAmount, tokenSalePrice), "Insufficient Ether provided for this purchase");
 
         ERC20 token = ERC20(tokenAddress);
         
