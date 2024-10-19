@@ -7,9 +7,9 @@ import erc20 from "./ERC20.json";
 
 export const TOKEN_ADDRESS = "0xaA01545AAEeb35d48E5F171F4F722813421498eE";
 export const ERC20_ABI = erc20.abi;
-export const OWNER_ADDRESS = "";
-export const CONTRACT_ADDRESS = "";
-export const CONTRACT_ABI = "";
+export const OWNER_ADDRESS = "0x96FAA67f6c78ca2A32A4d60D1A92353A1b653F17";
+export const CONTRACT_ADDRESS = "0x441b3069e00c9f8E61538464b5Ba5Dd3e486c5B4";
+export const CONTRACT_ABI = tokenICO.abi;
 
 const networks = {
   sepolia: {
