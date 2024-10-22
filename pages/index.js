@@ -75,7 +75,26 @@ const index = () => {
     fetchData();
   }, [account]);
 
-  return <div>@Ha$hCodes</div>;
+  return (
+    <>
+      <div className="body_wrap">
+        {ownerModel && (
+          <Owner
+            setOwnerModel={setOwnerModel}
+            currency={currency}
+            detail={detail}
+            account={account}
+            setTransferModel={setTransferModel}
+            setTransferCurrency={setTransferCurrency}
+            setOpenDonate={setOpenDonate}
+            TOKEN_WITHDRAW={TOKEN_WITHDRAW}
+            setOpenUpdateAddress={setOpenUpdateAddress}
+            setOpenUpdatePrice={setOpenUpdatePrice}
+          />
+        )}
+      </div>
+    </>
+  );
 };
 
 export default index;
