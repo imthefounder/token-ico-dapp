@@ -47,7 +47,7 @@ export const TOKEN_ICO_Provider = ({ children }) => {
 
         const tokenDetails = await contract.getTokenDetails();
 
-        const contractOwner = await contract.owner();
+        const owner = await contract.owner();
 
         const soldTokens = await contract.soldTokens();
 
