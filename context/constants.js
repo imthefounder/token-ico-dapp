@@ -137,7 +137,7 @@ const changeNetwork = async ({ networkName }) => {
       ],
     });
   } catch (error) {
-    console.log(err.message);
+    console.log(error.message);
   }
 };
 
