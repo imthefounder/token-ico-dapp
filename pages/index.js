@@ -64,6 +64,17 @@ const index = () => {
 
   const [detail, setDetail] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const items = await TOKEN_ICO();
+
+      console.log(items);
+
+      setDetail(items);
+    };
+    fetchData();
+  }, [account]);
+
   return <div>@Ha$hCodes</div>;
 };
 
