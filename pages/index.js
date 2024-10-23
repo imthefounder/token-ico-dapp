@@ -105,6 +105,15 @@ const index = () => {
             setLoader={setLoader}
           />
         )}
+
+        {transferModel && (
+          <TransferToken
+            setTransferModel={setTransferModel}
+            TRANSFER_TOKEN={TRANSFER_TOKEN}
+            ERC20={ERC20}
+            setLoader={setLoader}
+          />
+        )}
       </div>
     </>
   );
