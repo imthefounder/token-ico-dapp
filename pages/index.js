@@ -134,6 +134,15 @@ const index = () => {
             DONATE={DONATE}
           />
         )}
+
+        {openUpdatePrice && (
+          <UpdatePrice
+            setOpenUpdatePrice={setOpenUpdatePrice}
+            detail={detail}
+            currency={currency}
+            UPDATE_TOKEN_PRICE={UPDATE_TOKEN_PRICE}
+          />
+        )}
       </div>
     </>
   );
