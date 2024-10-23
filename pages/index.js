@@ -154,6 +154,8 @@ const index = () => {
             setLoader={setLoader}
           />
         )}
+
+        {loader && <Loader />}
       </div>
     </>
   );
