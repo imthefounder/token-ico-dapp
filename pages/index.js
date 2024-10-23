@@ -143,6 +143,17 @@ const index = () => {
             UPDATE_TOKEN_PRICE={UPDATE_TOKEN_PRICE}
           />
         )}
+
+        {openUpdateAddress && (
+          <UpdateAddress
+            setOpenUpdateAddress={setOpenUpdateAddress}
+            detail={detail}
+            currency={currency}
+            UPDATE_TOKEN={UPDATE_TOKEN}
+            ERC20={ERC20}
+            setLoader={setLoader}
+          />
+        )}
       </div>
     </>
   );
