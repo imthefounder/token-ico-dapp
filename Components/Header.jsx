@@ -29,6 +29,10 @@ const Header = ({
     };
   }, []);
 
+  const handleAccountsChanged = (accounts) => {
+    setAccount(accounts[0]);
+  };
+
   return <div>Header</div>;
 };
 
