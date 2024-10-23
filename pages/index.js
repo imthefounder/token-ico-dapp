@@ -168,6 +168,18 @@ const index = () => {
           currency={currency}
           ownerModel={setOwnerModel}
         />
+
+        <SideBar />
+
+        <Hero
+          setBuyModel={setBuyModel}
+          account={account}
+          CONNECT_WALLET={CONNECT_WALLET}
+          setAccount={setAccount}
+          setLoader={setLoader}
+          detail={detail}
+          addTokenToMetamask={addTokenToMetamask}
+        />
       </div>
     </>
   );
