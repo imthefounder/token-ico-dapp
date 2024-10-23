@@ -114,6 +114,17 @@ const index = () => {
             setLoader={setLoader}
           />
         )}
+
+        {transferCurrency && (
+          <TransferCurrency
+            setTransferCurrency={setTransferCurrency}
+            TRANSFER_ETHER={TRANSFER_ETHER}
+            detail={detail}
+            currency={currency}
+            CHECK_ACCOUNT_BALANCE={CHECK_ACCOUNT_BALANCE}
+            setLoader={setLoader}
+          />
+        )}
       </div>
     </>
   );
