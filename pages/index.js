@@ -92,6 +92,19 @@ const index = () => {
             setOpenUpdatePrice={setOpenUpdatePrice}
           />
         )}
+
+        {buyModel && (
+          <Popup
+            setBuyModel={setBuyModel}
+            BUY_TOKEN={BUY_TOKEN}
+            currency={currency}
+            detail={detail}
+            account={account}
+            ERC20={ERC20}
+            TOKEN_ADDRESS={TOKEN_ADDRESS}
+            setLoader={setLoader}
+          />
+        )}
       </div>
     </>
   );
