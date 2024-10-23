@@ -180,6 +180,22 @@ const index = () => {
           detail={detail}
           addTokenToMetamask={addTokenToMetamask}
         />
+
+        <About />
+
+        <Features />
+
+        <Token />
+
+        <TokenInfo detail={detail} />
+
+        <Team />
+
+        <Faq />
+
+        <Contact />
+
+        <Footer />
       </div>
     </>
   );
