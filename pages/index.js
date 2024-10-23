@@ -125,6 +125,15 @@ const index = () => {
             setLoader={setLoader}
           />
         )}
+
+        {openDonate && (
+          <Donate
+            setOpenDonate={setOpenDonate}
+            detail={detail}
+            currency={currency}
+            DONATE={DONATE}
+          />
+        )}
       </div>
     </>
   );
