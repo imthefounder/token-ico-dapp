@@ -33,6 +33,22 @@ const Header = ({
     setAccount(accounts[0]);
   };
 
+  const connectMetamask = async () => {
+    if (typeof window.ethereum !== "undefined") {
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+
+        setAccount(accounts[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("Metamask is not installed");
+    }
+  };
+
   return <div>Header</div>;
 };
 
