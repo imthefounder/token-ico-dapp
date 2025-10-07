@@ -3,12 +3,12 @@ import Web3Modal from "web3modal";
 
 //INTERNAL IMPORTS & EXPORTS
 import tokenICO from "./TokenICO.json";
-import erc20 from "./ERC20.json";
+import minchynERC20 from "./MinchynERC20.json";
 
-export const TOKEN_ADDRESS = "0xaA01545AAEeb35d48E5F171F4F722813421498eE";
-export const ERC20_ABI = erc20.abi;
-export const OWNER_ADDRESS = "0x96FAA67f6c78ca2A32A4d60D1A92353A1b653F17";
-export const CONTRACT_ADDRESS = "0x441b3069e00c9f8E61538464b5Ba5Dd3e486c5B4";
+export const TOKEN_ADDRESS = "0x91738EE7A9b54eb810198cefF5549ca5982F47B3"; // MINCHYN Token Address
+export const ERC20_ABI = minchynERC20.abi;
+export const OWNER_ADDRESS = "0x96FAA67f6c78ca2A32A4d60D1A92353A1b653F17"; // Update with your address
+export const CONTRACT_ADDRESS = "0x441b3069e00c9f8E61538464b5Ba5Dd3e486c5B4"; // Update when you deploy new ICO contract
 export const CONTRACT_ABI = tokenICO.abi;
 
 const networks = {

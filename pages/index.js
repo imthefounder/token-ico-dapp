@@ -15,6 +15,7 @@ import {
   Token,
   TokenInfo,
   Roadmap,
+  ICODashboard,
   Popup,
   TransferToken,
   Owner,
@@ -180,6 +181,8 @@ const index = () => {
           detail={detail}
           addTokenToMetamask={addTokenToMetamask}
         />
+
+        <ICODashboard />
 
         <About />
 

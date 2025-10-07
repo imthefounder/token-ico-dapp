@@ -13,6 +13,7 @@ import Team from "./Team";
 import Token from "./Token";
 import TokenInfo from "./TokenInfo";
 import Roadmap from "./Roadmap";
+import ICODashboard from "./ICODashboard";
 
 //MODEL
 import Popup from "./Popup";
@@ -39,6 +40,7 @@ export {
   Token,
   TokenInfo,
   Roadmap,
+  ICODashboard,
   Popup,
   TransferToken,
   Owner,
