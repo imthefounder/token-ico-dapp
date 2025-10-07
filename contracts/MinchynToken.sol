@@ -24,7 +24,7 @@ interface INFTContract {
 
 // MINCHYN Token Contract
 // This is a modified version of the original MINCHYN token to work with ICO platform
-contract MinchynToken is ERC20, ERC20Burnable, Ownable {
+contract MinchynToken is ERC20, ERC20Burnable, AccessControl, Ownable {
     using SafeMath for uint256;
 
     INFTContract public nftContract;
@@ -48,10 +48,6 @@ contract MinchynToken is ERC20, ERC20Burnable, Ownable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
 
-    // Role management mappings
-    mapping(bytes32 => mapping(address => bool)) private _roles;
-    mapping(bytes32 => bytes32) private _roleAdmins;
-
     constructor(
         string memory name,
         string memory symbol,
@@ -59,38 +55,22 @@ contract MinchynToken is ERC20, ERC20Burnable, Ownable {
         uint256 totalSupply_
     ) ERC20(name, symbol) {
         _mint(msg.sender, totalSupply_);
-        _setupRole(MINTER_ROLE, msg.sender);
-        _setupRole(BURNER_ROLE, msg.sender);
-        _setupRole(PAUSER_ROLE, msg.sender);
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(MINTER_ROLE, msg.sender);
+        _grantRole(BURNER_ROLE, msg.sender);
+        _grantRole(PAUSER_ROLE, msg.sender);
         setContract(_nftContract);
-    }
-
-    // Role management functions
-    function _setupRole(bytes32 role, address account) internal {
-        _roles[role][account] = true;
-    }
-
-    function hasRole(bytes32 role, address account) public view returns (bool) {
-        return _roles[role][account];
-    }
-
-    function grantRole(bytes32 role, address account) public onlyOwner {
-        _roles[role][account] = true;
-    }
-
-    function revokeRole(bytes32 role, address account) public onlyOwner {
-        _roles[role][account] = false;
     }
 
     function setContract(address _contract) public onlyOwner {
         nftContract = INFTContract(_contract);
-        _setupRole(BURNER_ROLE, _contract); 
+        _grantRole(BURNER_ROLE, _contract); 
     }
 
     function addSecondaryContract(address _contract) public onlyOwner {
         secondaryContracts[_contract] = INFTContract(_contract);
         secondaryContractsAddresses.push(_contract);
-        _setupRole(BURNER_ROLE, _contract);
+        _grantRole(BURNER_ROLE, _contract);
     }
 
     function removeSecondaryContract(address _contract) public onlyOwner {
@@ -103,7 +83,7 @@ contract MinchynToken is ERC20, ERC20Burnable, Ownable {
             secondaryContractsAddresses.length - 1
         ];
         secondaryContractsAddresses.pop();
-        _roles[BURNER_ROLE][_contract] = false;
+        _revokeRole(BURNER_ROLE, _contract);
     }
 
     function min(uint256 a, uint256 b) internal pure returns (uint256) {
@@ -209,7 +189,7 @@ contract MinchynToken is ERC20, ERC20Burnable, Ownable {
             hasRole(BURNER_ROLE, msg.sender),
             "Must have burner role to burn"
         );
-        super._burn(msg.sender, value);
+        _burn(msg.sender, value);
     }
 
     function spend(address _from, uint256 _amount) external {
@@ -217,7 +197,7 @@ contract MinchynToken is ERC20, ERC20Burnable, Ownable {
             hasRole(BURNER_ROLE, msg.sender),
             "Must have burner role to spend"
         );
-        super.burnFrom(_from, _amount);
+        _burn(_from, _amount);
         emit StandardSpent(_from, _amount);
     }
 
@@ -227,6 +207,11 @@ contract MinchynToken is ERC20, ERC20Burnable, Ownable {
 
     function removeController(address controller) external onlyOwner {
         controllers[controller] = false;
+    }
+
+    // Interface support
+    function supportsInterface(bytes4 interfaceId) public view virtual override(AccessControl) returns (bool) {
+        return super.supportsInterface(interfaceId);
     }
 
     // Override transfer functions to ensure compatibility
