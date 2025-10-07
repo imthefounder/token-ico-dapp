@@ -1,5 +1,7 @@
 import toast, { Toaster } from "react-hot-toast";
 import "../styles/globals.css";
+import "../styles/performance.css";
+import "../styles/fixes.css";
 import { TOKEN_ICO_Provider } from "../context/index";
 
 export default function App({ Component, pageProps }) {

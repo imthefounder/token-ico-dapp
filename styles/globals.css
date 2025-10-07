@@ -8,6 +8,19 @@
 @import url("../public/assets/css/magnific-popup.css");
 @import url("../public/assets/css/main.css");
 
+/* Enhanced body background to work with liquid background */
+body {
+  background: transparent;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.body_wrap {
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(0.5px);
+}
+
 .new-margin {
   margin-top: 7rem;
 }

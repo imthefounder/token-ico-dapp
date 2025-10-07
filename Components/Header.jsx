@@ -35,14 +35,29 @@ const Header = ({
   };
 
   const menuItems = [
-    { name: "ICO", href: "#purchase-section" },
-    { name: "About", href: "#about" },
-    { name: "Tokenomics", href: "#tokenomics" },
-    { name: "Team", href: "#team" },
-    { name: "FAQ", href: "#faq" }
+    { name: "Home", href: "/", isLink: true },
+    { name: "Mint NFT", href: "/mint-nft", isLink: true },
+    { name: "About", href: "/learn-more", isLink: true },
+    { name: "Tokenomics", href: "/tokenomics", isLink: true },
+    // { name: "Team", href: "/team", isLink: true }, // Hidden as requested
+    { name: "FAQ", href: "/faq", isLink: true }
   ];
 
-  const scrollToSection = (href) => {
+  const scrollToSection = (href, isLink = false) => {
+    if (isLink) {
+      window.location.href = href;
+      return;
+    }
+    
+    // Check if we're currently on the learn-more page
+    const currentPath = window.location.pathname;
+    if (currentPath === '/learn-more') {
+      // Redirect to main page with anchor
+      window.location.href = `/${href}`;
+      return;
+    }
+    
+    // If we're on the main page, scroll to section
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -53,14 +68,16 @@ const Header = ({
   return (
     <header style={{
       position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 1000,
-      background: 'rgba(15, 15, 35, 0.95)',
+      top: '0',
+      left: '0',
+      right: '0',
+      width: '100%',
+      zIndex: '10000',
+      backgroundColor: 'rgba(15, 15, 35, 0.95)',
       backdropFilter: 'blur(20px)',
       borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-      padding: '1rem 0'
+      padding: '1rem 0',
+      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
     }}>
       <div className="container">
         <nav style={{
@@ -69,11 +86,22 @@ const Header = ({
           justifyContent: 'space-between'
         }}>
           {/* Logo */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}>
+          <div 
+            onClick={() => window.location.href = '/'}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
             <div style={{
               width: '40px',
               height: '40px',
@@ -116,7 +144,7 @@ const Header = ({
             {menuItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => scrollToSection(item.href, item.isLink)}
                 style={{
                   background: 'none',
                   border: 'none',
@@ -244,7 +272,7 @@ const Header = ({
             {menuItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => scrollToSection(item.href, item.isLink)}
                 style={{
                   display: 'block',
                   width: '100%',

@@ -137,8 +137,14 @@ const Hero = () => {
               
               <button 
                 className="btn btn-outline"
-                onClick={() => document.getElementById('tokenomics')?.scrollIntoView()}
-                style={{ fontSize: '1.1rem', padding: '1.2rem 2.5rem' }}
+                onClick={() => window.location.href = '/learn-more'}
+                style={{ 
+                  fontSize: '1.1rem', 
+                  padding: '1.2rem 2.5rem',
+                  opacity: 1,
+                  visibility: 'visible',
+                  display: 'inline-block'
+                }}
               >
                 Learn More
               </button>

@@ -1,0 +1,144 @@
+/* Performance Optimization CSS */
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed header */
+}
+
+/* GPU acceleration for animations */
+.slide-section,
+.back-to-top,
+.glass-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+  will-change: transform, opacity;
+}
+
+/* Optimize text rendering */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimize canvas performance */
+canvas {
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+/* Performance hints for animations */
+.animate-on-scroll {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* Optimize backdrop filters */
+.glass-card,
+.backdrop-blur {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Container query optimizations */
+.container {
+  contain: layout style;
+}
+
+/* Lazy loading optimization */
+img {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px;
+}
+
+/* Grid layout optimizations */
+.grid {
+  contain: layout;
+}
+
+/* Button hover optimizations */
+.btn {
+  transform: translateZ(0);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateZ(0) translateY(-2px);
+}
+
+/* Section spacing optimizations */
+section {
+  scroll-margin-top: 80px; /* Account for fixed header */
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  /* Reduce blur intensity on mobile for better performance */
+  .glass-card,
+  .backdrop-blur {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+  
+  /* Simplify animations on mobile */
+  .slide-section {
+    transition-duration: 0.5s !important;
+  }
+  
+  /* Reduce canvas quality on mobile */
+  canvas {
+    image-rendering: optimizeSpeed;
+  }
+}
+
+/* Loading state optimizations */
+.loading {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.loading.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Intersection observer optimizations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Header performance */
+header {
+  will-change: transform;
+  contain: layout style;
+}
+
+/* Footer performance */
+footer {
+  contain: layout style;
+}

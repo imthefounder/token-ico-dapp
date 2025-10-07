@@ -3,19 +3,11 @@ import {
   Footer,
   Brand,
   Header,
-  About,
-  Contact,
-  Faq,
-  Features,
   Hero,
   Loader,
   Progress,
-  SideBar,
-  Team,
-  Token,
-  TokenInfo,
-  Roadmap,
   ICODashboard,
+  BackToTop,
   Popup,
   TransferToken,
   Owner,
@@ -170,8 +162,6 @@ const index = () => {
           ownerModel={setOwnerModel}
         />
 
-        <SideBar />
-
         <Hero
           setBuyModel={setBuyModel}
           account={account}
@@ -184,21 +174,9 @@ const index = () => {
 
         <ICODashboard />
 
-        <About />
-
-        <Features />
-
-        <Token />
-
-        <TokenInfo detail={detail} />
-
-        <Team />
-
-        <Faq />
-
-        <Contact />
-
         <Footer />
+        
+        <BackToTop />
       </div>
     </>
   );

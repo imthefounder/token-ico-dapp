@@ -4,16 +4,18 @@ import About from "./About";
 import Brand from "./Brand";
 import Contact from "./Contact";
 import Faq from "./Faq";
-import Features from "./Features";
 import Hero from "./Hero";
 import Loader from "./Loader";
 import Progress from "./Progress";
-import SideBar from "./SideBar";
 import Team from "./Team";
 import Token from "./Token";
 import TokenInfo from "./TokenInfo";
 import Roadmap from "./Roadmap";
 import ICODashboard from "./ICODashboard";
+import BackToTop from "./BackToTop";
+import SlideSection from "./SlideSection";
+import UglyUnicornsMint from "./UglyUnicornsMint";
+import BlockchainActivity from "./BlockchainActivity";
 
 //MODEL
 import Popup from "./Popup";
@@ -31,16 +33,18 @@ export {
   About,
   Contact,
   Faq,
-  Features,
   Hero,
   Loader,
   Progress,
-  SideBar,
   Team,
   Token,
   TokenInfo,
   Roadmap,
   ICODashboard,
+  BackToTop,
+  SlideSection,
+  UglyUnicornsMint,
+  BlockchainActivity,
   Popup,
   TransferToken,
   Owner,
