@@ -112,15 +112,17 @@ const Hero = () => {
 
             <div style={{ 
               display: 'flex', 
-              gap: '1rem', 
+              gap: '0.8rem', 
               marginBottom: '3rem',
-              flexWrap: 'wrap'
+              flexWrap: 'nowrap',
+              justifyContent: 'center',
+              alignItems: 'center'
             }}>
               {account ? (
                 <button 
                   className="btn btn-primary"
                   onClick={() => document.getElementById('purchase-section')?.scrollIntoView()}
-                  style={{ fontSize: '1.1rem', padding: '1.2rem 2.5rem' }}
+                  style={{ fontSize: '1rem', padding: '1rem 1.5rem', flex: '1', maxWidth: '180px' }}
                 >
                   Buy MINCHYN Now
                 </button>
@@ -129,7 +131,7 @@ const Hero = () => {
                   className="btn btn-primary"
                   onClick={CONNECT_WALLET}
                   disabled={loader}
-                  style={{ fontSize: '1.1rem', padding: '1.2rem 2.5rem' }}
+                  style={{ fontSize: '1rem', padding: '1rem 1.5rem', flex: '1', maxWidth: '180px' }}
                 >
                   {loader ? 'Connecting...' : 'Connect Wallet'}
                 </button>
@@ -139,14 +141,29 @@ const Hero = () => {
                 className="btn btn-outline"
                 onClick={() => window.location.href = '/learn-more'}
                 style={{ 
-                  fontSize: '1.1rem', 
-                  padding: '1.2rem 2.5rem',
+                  fontSize: '1rem', 
+                  padding: '1rem 1.5rem',
                   opacity: 1,
                   visibility: 'visible',
-                  display: 'inline-block'
+                  display: 'inline-block',
+                  flex: '1',
+                  maxWidth: '180px'
                 }}
               >
                 Learn More
+              </button>
+              
+              <button 
+                className="btn btn-secondary btn-nft-mint"
+                onClick={() => window.location.href = '/mint-nft'}
+                style={{ 
+                  fontSize: '1rem', 
+                  padding: '1rem 1.5rem',
+                  flex: '1',
+                  maxWidth: '180px'
+                }}
+              >
+                🎨 Mint NFT
               </button>
             </div>
 

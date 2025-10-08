@@ -12,6 +12,18 @@ export const CONTRACT_ADDRESS = "0x441b3069e00c9f8E61538464b5Ba5Dd3e486c5B4"; //
 export const CONTRACT_ABI = tokenICO.abi;
 
 const networks = {
+  ethereum: {
+    chainId: `0x${Number(1).toString(16)}`,
+    chainName: "Ethereum Mainnet",
+    nativeCurrency: {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    rpcUrls: ["https://eth.llamarpc.com"],
+    blockExplorerUrls: ["https://etherscan.io"],
+  },
+
   sepolia: {
     chainId: `0x${Number(11155111).toString(16)}`,
     chainName: "Sepolia",
@@ -128,56 +140,144 @@ const changeNetwork = async ({ networkName }) => {
   try {
     if (!window.ethereum) throw new Error("No crypto wallet found");
 
-    await window.ethereum.request({
-      method: "wallet_addEthereumChain",
-      params: [
-        {
-          ...networks[networkName],
-        },
-      ],
-    });
+    const network = networks[networkName];
+    if (!network) throw new Error(`Network ${networkName} not configured`);
+
+    try {
+      // First try to switch to the network if it exists
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: network.chainId }],
+      });
+    } catch (switchError) {
+      // If the network doesn't exist, add it
+      if (switchError.code === 4902) {
+        await window.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [network],
+        });
+      } else {
+        throw switchError;
+      }
+    }
   } catch (error) {
-    console.log(error.message);
+    console.log("Network change error:", error.message);
+    throw error;
   }
 };
 
 export const handleNetworkSwitch = async () => {
-  const networkName = " holesky";
+  const networkName = "ethereum";
 
   await changeNetwork({ networkName });
 };
 
 export const CHECK_CONNECTED_WALLET = async () => {
-  if (!window.ethereum) return console.log("Please install Metamask");
+  try {
+    if (!isMetaMaskInstalled()) {
+      console.log("MetaMask not installed");
+      return null;
+    }
 
-  await handleNetworkSwitch();
+    if (!window.ethereum) {
+      console.log("Ethereum object not found");
+      return null;
+    }
 
-  const account = await window.ethereum.request({
-    method: "eth_accounts",
-  });
+    const accounts = await window.ethereum.request({
+      method: "eth_accounts",
+    });
 
-  if (account.length) {
-    return account[0];
+    if (accounts && accounts.length > 0) {
+      console.log("Found connected account:", accounts[0]);
+      return accounts[0];
+    } else {
+      console.log("No connected accounts found");
+      return null;
+    }
+  } catch (error) {
+    console.log("Error checking connected wallet:", error);
+    return null;
+  }
+};
+
+// Enhanced MetaMask detection
+export const isMetaMaskInstalled = () => {
+  return typeof window !== 'undefined' && 
+         typeof window.ethereum !== 'undefined' && 
+         window.ethereum.isMetaMask;
+};
+
+// Get MetaMask installation URL
+export const getMetaMaskInstallUrl = () => {
+  const userAgent = navigator.userAgent;
+  
+  if (userAgent.includes('Firefox')) {
+    return 'https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/';
+  } else if (userAgent.includes('Edg')) {
+    return 'https://microsoftedge.microsoft.com/addons/detail/metamask/ejbalbakoplchlghecdalmeeeajnimhm';
   } else {
-    console.log("Please install Metamask, connect & reload");
+    return 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn';
   }
 };
 
 export const CONNECT_WALLET = async () => {
   try {
-    if (!window.ethereum) return console.log("Please install Metamask");
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined') {
+      throw new Error("Not in browser environment");
+    }
 
-    await handleNetworkSwitch();
+    // Check if MetaMask is installed
+    if (!isMetaMaskInstalled()) {
+      const installUrl = getMetaMaskInstallUrl();
+      throw new Error(`MetaMask not detected. Please install MetaMask from: ${installUrl}`);
+    }
 
-    const account = await window.ethereum.request({
+    // Check if Ethereum object exists
+    if (!window.ethereum) {
+      throw new Error("Ethereum object not found. Please check your wallet extension.");
+    }
+
+    console.log("Attempting to connect to MetaMask...");
+
+    // Request account access
+    const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     });
 
-    window.location.reload();
+    if (!accounts || accounts.length === 0) {
+      throw new Error("No accounts returned from MetaMask. Please unlock your wallet and try again.");
+    }
 
-    return account[0];
+    console.log("Accounts received:", accounts);
+
+    // Try to switch/add network (non-blocking)
+    try {
+      await handleNetworkSwitch();
+      console.log("Network switch successful");
+    } catch (networkError) {
+      console.warn("Network switch failed, but continuing with connection:", networkError.message);
+      // Don't throw here - allow connection even if network switch fails
+    }
+
+    const connectedAccount = accounts[0];
+    console.log("Successfully connected to wallet:", connectedAccount);
+    
+    return connectedAccount;
   } catch (error) {
-    console.log(error);
+    console.error("Wallet connection error:", error);
+    
+    // Provide more specific error messages
+    if (error.code === 4001) {
+      throw new Error("Connection rejected by user. Please try again and approve the connection.");
+    } else if (error.code === -32002) {
+      throw new Error("Connection request already pending. Please check MetaMask.");
+    } else if (error.message.includes("install MetaMask")) {
+      throw error; // Pass through MetaMask installation errors
+    } else {
+      throw new Error(`Connection failed: ${error.message}`);
+    }
   }
 };
 

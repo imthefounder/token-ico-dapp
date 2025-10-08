@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { MetaMaskInstallPrompt } from "./index";
 
 const Header = ({
   account,
@@ -13,6 +14,7 @@ const Header = ({
 }) => {
   const [isMetamaskInstalled, setIsMetamaskInstalled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showInstallPrompt, setShowInstallPrompt] = useState(false);
 
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
@@ -65,8 +67,27 @@ const Header = ({
     setMobileMenuOpen(false);
   };
 
+  const handleWalletConnect = async () => {
+    // Check if MetaMask is installed
+    if (!isMetamaskInstalled) {
+      setShowInstallPrompt(true);
+      return;
+    }
+    
+    // Proceed with wallet connection
+    try {
+      await CONNECT_WALLET();
+    } catch (error) {
+      console.error("Wallet connection failed:", error);
+    }
+  };
+
   return (
-    <header style={{
+    <>
+      {showInstallPrompt && (
+        <MetaMaskInstallPrompt onClose={() => setShowInstallPrompt(false)} />
+      )}
+      <header style={{
       position: 'fixed',
       top: '0',
       left: '0',
@@ -227,7 +248,7 @@ const Header = ({
             ) : (
               <button
                 className="btn btn-primary"
-                onClick={CONNECT_WALLET}
+                onClick={handleWalletConnect}
                 style={{
                   padding: '0.75rem 1.5rem',
                   fontSize: '0.95rem'
@@ -319,6 +340,7 @@ const Header = ({
         }
       `}</style>
     </header>
+    </>
   );
 };
 

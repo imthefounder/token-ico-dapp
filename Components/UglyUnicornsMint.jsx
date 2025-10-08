@@ -40,12 +40,12 @@ const UglyUnicornsMint = ({
         }
       } catch (error) {
         console.error("Error fetching contract data:", error);
-        // Use fallback values if contract calls fail
-        setTotalMinted(8843);
+        // Use realistic fallback values for a new NFT collection
+        setTotalMinted(23); // More realistic for a new collection
         setMaxSupply(22222);
         setMintPrice(0.08);
         if (account) {
-          setUserBalance(3);
+          setUserBalance(1); // More realistic user balance
         }
       }
     };

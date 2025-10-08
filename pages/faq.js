@@ -1,6 +1,7 @@
 import React from 'react';
 import { Header, Footer, Faq, Contact, BackToTop } from "../Components";
 import { TOKEN_ICO_Context } from "../context/index";
+import { shortenAddress } from "../Utils/index";
 
 const FaqPage = () => {
   const {
@@ -8,7 +9,6 @@ const FaqPage = () => {
     CONNECT_WALLET,
     setAccount,
     setLoader,
-    shortenAddress,
     detail,
     currency,
     setOwnerModel,

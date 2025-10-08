@@ -2,6 +2,7 @@ import React from "react";
 import { Header } from "../Components";
 import UglyUnicornsMint from "../Components/UglyUnicornsMint";
 import { TOKEN_ICO_Context } from "../context/index";
+import { shortenAddress } from "../Utils/index";
 import BackToTop from "../Components/BackToTop";
 
 const UnicornsMintPage = () => {
@@ -10,7 +11,6 @@ const UnicornsMintPage = () => {
     CONNECT_WALLET,
     setAccount,
     setLoader,
-    shortenAddress,
     detail,
     currency,
     setOwnerModel,

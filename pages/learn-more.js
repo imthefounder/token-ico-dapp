@@ -1,11 +1,32 @@
 import React from 'react';
 import { Header, Footer, About, BackToTop } from '../Components';
+import { TOKEN_ICO_Context } from "../context/index";
+import { shortenAddress } from "../Utils/index";
 
 const LearnMore = () => {
+  const {
+    account,
+    CONNECT_WALLET,
+    setAccount,
+    setLoader,
+    detail,
+    currency,
+    setOwnerModel,
+  } = React.useContext(TOKEN_ICO_Context);
+
   return (
     <>
       <div className="body_wrap">
-        <Header />
+        <Header
+          account={account}
+          CONNECT_WALLET={CONNECT_WALLET}
+          setAccount={setAccount}
+          setLoader={setLoader}
+          setOwnerModel={setOwnerModel}
+          shortenAddress={shortenAddress}
+          detail={detail}
+          currency={currency}
+        />
         
         {/* Hero Section */}
         <section className="learn-more-hero" style={{

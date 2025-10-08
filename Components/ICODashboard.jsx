@@ -244,6 +244,18 @@ const ICODashboard = () => {
                 >
                   Add MINCHYN to MetaMask
                 </button>
+
+                {/* Mint NFT Button */}
+                <button
+                  className="btn btn-primary btn-nft-mint w-full"
+                  onClick={() => window.location.href = '/mint-nft'}
+                  style={{ 
+                    marginTop: '1rem', 
+                    fontSize: '0.9rem'
+                  }}
+                >
+                  🎨 Mint Exclusive NFT
+                </button>
               </>
             )}
           </div>
@@ -350,6 +362,75 @@ const ICODashboard = () => {
                     color: 'var(--primary-color)'
                   }}>
                     {TOKEN_ADDRESS}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* NFT Collection Information */}
+            <div className="glass-card" style={{ marginTop: '2rem' }}>
+              <h3 style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                🎨 Exclusive NFT Collection
+              </h3>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.5rem', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <span style={{ opacity: 0.8 }}>Collection:</span>
+                  <span style={{ fontWeight: 'bold' }}>MINCHYN Genesis</span>
+                </div>
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.5rem', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <span style={{ opacity: 0.8 }}>Network:</span>
+                  <span style={{ fontWeight: 'bold' }}>Ethereum Mainnet</span>
+                </div>
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.5rem', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <span style={{ opacity: 0.8 }}>Theme:</span>
+                  <span style={{ fontWeight: 'bold' }}>Dark/Rounded</span>
+                </div>
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '0.5rem', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <span style={{ opacity: 0.8 }}>Status:</span>
+                  <span style={{ 
+                    display: 'flex', 
+                    alignItems: 'center',
+                    color: 'var(--success-color)'
+                  }}>
+                    <span className="status-dot status-active"></span>
+                    Live Minting
+                  </span>
+                </div>
+
+                <div style={{ 
+                  marginTop: '1rem',
+                  padding: '1rem',
+                  background: 'rgba(177, 231, 73, 0.1)',
+                  borderRadius: 'var(--border-radius-sm)',
+                  border: '1px solid rgba(177, 231, 73, 0.2)'
+                }}>
+                  <div style={{ marginBottom: '0.5rem', fontWeight: 'bold', color: '#B1E749' }}>Special Benefits:</div>
+                  <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.9rem' }}>
+                    <li>Exclusive holder rewards</li>
+                    <li>Early access to features</li>
+                    <li>Community governance rights</li>
+                    <li>Limited edition artwork</li>
+                  </ul>
+                </div>
+
+                <div style={{ 
+                  marginTop: '1rem',
+                  padding: '1rem',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: 'var(--border-radius-sm)',
+                  fontSize: '0.8rem'
+                }}>
+                  <div style={{ marginBottom: '0.5rem', opacity: 0.8 }}>NFT Contract Address:</div>
+                  <div style={{ 
+                    fontFamily: 'monospace', 
+                    wordBreak: 'break-all',
+                    color: '#B1E749'
+                  }}>
+                    0xA548fa1D539cab8D78163CB064F7b22E6eF34b2F
                   </div>
                 </div>
               </div>

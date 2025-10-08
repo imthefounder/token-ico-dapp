@@ -12,15 +12,28 @@ import {
   TOKEN_ADDRESS,
   addTokenToMetamask,
 } from "./constants";
+// import { parseTransactionError } from "../Utils";
 
 export const TOKEN_ICO_Context = React.createContext();
 
 export const TOKEN_ICO_Provider = ({ children }) => {
   const DAPP_NAME = "TOKEN ICO DAPP";
 
+  // Temporary error parsing function
+  const parseTransactionError = (error) => {
+    const errorMessage = error?.message || error?.toString() || '';
+    if (errorMessage.includes('insufficient funds')) {
+      return "Insufficient funds to complete transaction. Please ensure you have enough ETH.";
+    }
+    if (errorMessage.includes('user rejected') || error?.code === 4001) {
+      return "Transaction was cancelled by user.";
+    }
+    return "Transaction failed. Please check your wallet and try again.";
+  };
+
   const currency = "ETH";
 
-  const network = "Holesky";
+  const network = "Ethereum";
 
   const [loader, setLoader] = useState(false);
 
@@ -31,6 +44,81 @@ export const TOKEN_ICO_Provider = ({ children }) => {
   const notifySuccess = (msg) => toast.success(msg, { duration: 2000 });
 
   const notifyError = (msg) => toast.error(msg, { duration: 2000 });
+
+  // Wallet Connection Handler
+  const connectWallet = async () => {
+    try {
+      setLoader(true);
+      const address = await CONNECT_WALLET();
+      if (address) {
+        setAccount(address);
+        notifySuccess(`Wallet connected: ${address.slice(0, 6)}...${address.slice(-4)}`);
+        return address;
+      }
+    } catch (error) {
+      console.log("Connection error:", error);
+      
+      // Show specific error messages to users
+      if (error.message.includes("MetaMask not detected")) {
+        notifyError("MetaMask not found. Please install MetaMask and refresh the page.");
+      } else if (error.message.includes("rejected by user")) {
+        notifyError("Connection cancelled. Please approve the connection to continue.");
+      } else if (error.message.includes("already pending")) {
+        notifyError("Connection request pending. Please check MetaMask popup.");
+      } else if (error.message.includes("Network")) {
+        notifyError("Network issue. Please check your connection and try again.");
+      } else {
+        notifyError(`Connection failed: ${error.message}`);
+      }
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  // Check for existing connection on component mount
+  React.useEffect(() => {
+    const checkConnection = async () => {
+      try {
+        const address = await CHECK_CONNECTED_WALLET();
+        if (address) {
+          setAccount(address);
+        }
+      } catch (error) {
+        console.log("No existing connection found");
+      }
+    };
+    
+    checkConnection();
+
+    // Listen for account changes
+    if (window.ethereum) {
+      const handleAccountsChanged = (accounts) => {
+        if (accounts.length === 0) {
+          setAccount(null);
+          notifyError("Wallet disconnected");
+        } else if (accounts[0] !== account) {
+          setAccount(accounts[0]);
+          notifySuccess("Account changed");
+        }
+      };
+
+      const handleChainChanged = (chainId) => {
+        // Reload the page when chain changes
+        window.location.reload();
+      };
+
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+      window.ethereum.on('chainChanged', handleChainChanged);
+
+      // Cleanup listeners
+      return () => {
+        if (window.ethereum.removeListener) {
+          window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+          window.ethereum.removeListener('chainChanged', handleChainChanged);
+        }
+      };
+    }
+  }, [account]);
 
   //---CONTRACT FUNCTIONS---
 
@@ -75,7 +163,8 @@ export const TOKEN_ICO_Provider = ({ children }) => {
     } catch (error) {
       console.log(error);
 
-      notifyError("Error! Try again later");
+      const userFriendlyError = parseTransactionError(error);
+      notifyError(userFriendlyError);
 
       setLoader(false);
     }
@@ -120,7 +209,8 @@ export const TOKEN_ICO_Provider = ({ children }) => {
     } catch (error) {
       console.log(error);
 
-      notifyError("Error! Try again later");
+      const userFriendlyError = parseTransactionError(error);
+      notifyError(userFriendlyError);
 
       setLoader(false);
     }
@@ -156,7 +246,8 @@ export const TOKEN_ICO_Provider = ({ children }) => {
     } catch (error) {
       console.log(error);
 
-      notifyError("Error! Try again later");
+      const userFriendlyError = parseTransactionError(error);
+      notifyError(userFriendlyError);
 
       setLoader(false);
     }
@@ -184,7 +275,8 @@ export const TOKEN_ICO_Provider = ({ children }) => {
     } catch (error) {
       console.log(error);
 
-      notifyError("Error! Try again later");
+      const userFriendlyError = parseTransactionError(error);
+      notifyError(userFriendlyError);
 
       setLoader(false);
     }
@@ -214,7 +306,8 @@ export const TOKEN_ICO_Provider = ({ children }) => {
     } catch (error) {
       console.log(error);
 
-      notifyError("Error! Try again later");
+      const userFriendlyError = parseTransactionError(error);
+      notifyError(userFriendlyError);
 
       setLoader(false);
     }
@@ -247,7 +340,8 @@ export const TOKEN_ICO_Provider = ({ children }) => {
     } catch (error) {
       console.log(error);
 
-      notifyError("Error! Try again later");
+      const userFriendlyError = parseTransactionError(error);
+      notifyError(userFriendlyError);
 
       setLoader(false);
     }
@@ -282,7 +376,8 @@ export const TOKEN_ICO_Provider = ({ children }) => {
     } catch (error) {
       console.log(error);
 
-      notifyError("Error! Try again later");
+      const userFriendlyError = parseTransactionError(error);
+      notifyError(userFriendlyError);
 
       setLoader(false);
     }
@@ -316,7 +411,8 @@ export const TOKEN_ICO_Provider = ({ children }) => {
     } catch (error) {
       console.log(error);
 
-      notifyError("Error! Try again later");
+      const userFriendlyError = parseTransactionError(error);
+      notifyError(userFriendlyError);
 
       setLoader(false);
     }
@@ -333,7 +429,7 @@ export const TOKEN_ICO_Provider = ({ children }) => {
         UPDATE_TOKEN_PRICE,
         TOKEN_WITHDRAW,
         TRANSFER_TOKEN,
-        CONNECT_WALLET,
+        CONNECT_WALLET: connectWallet,
         ERC20,
         CHECK_ACCOUNT_BALANCE,
         setAccount,

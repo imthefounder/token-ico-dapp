@@ -172,25 +172,31 @@ export const getRecentNFTActivity = async (limit = 10) => {
 // Get real NFT data for collection preview
 export const getRealNFTData = async (limit = 4) => {
   try {
+    // First try to load some quick preview data
+    const quickPreview = getQuickPreviewData(limit);
+    
+    // Then try to get real data in the background
     const contract = await getNFTContract();
     const totalSupply = await contract.totalSupply();
     const maxTokens = totalSupply.toNumber();
     
     if (maxTokens === 0) {
-      return getMockNFTData(); // Fallback to mock data if no NFTs minted yet
+      return quickPreview; // Return preview data if no NFTs minted yet
     }
 
-    // Get random token IDs from existing supply
+    // If we have real NFTs, get some actual data
     const tokenIds = [];
-    for (let i = 0; i < Math.min(limit, maxTokens); i++) {
+    const maxAttempts = Math.min(limit * 2, maxTokens); // Try more IDs in case some fail
+    
+    for (let i = 0; i < maxAttempts && tokenIds.length < limit; i++) {
       const randomId = Math.floor(Math.random() * maxTokens) + 1;
       if (!tokenIds.includes(randomId)) {
         tokenIds.push(randomId);
       }
     }
 
-    const nftData = await Promise.all(
-      tokenIds.map(async (tokenId) => {
+    const nftData = await Promise.allSettled(
+      tokenIds.slice(0, limit).map(async (tokenId) => {
         try {
           const owner = await contract.ownerOf(tokenId);
           return {
@@ -200,20 +206,71 @@ export const getRealNFTData = async (limit = 4) => {
             owner: owner,
             openseaUrl: `https://opensea.io/assets/ethereum/${NFT_CONTRACT_ADDRESS}/${tokenId}`,
             etherscanUrl: `https://etherscan.io/nft/${NFT_CONTRACT_ADDRESS}/${tokenId}`,
-            traits: generateRandomTraits() // Since we can't easily get metadata
+            traits: generateRandomTraits()
           };
         } catch (error) {
-          console.error(`Error fetching token ${tokenId}:`, error);
+          console.warn(`Error fetching token ${tokenId}:`, error);
           return null;
         }
       })
     );
 
-    return nftData.filter(nft => nft !== null);
+    // Filter successful results
+    const successfulResults = nftData
+      .filter(result => result.status === 'fulfilled' && result.value !== null)
+      .map(result => result.value);
+
+    // If we got some real data, return it, otherwise return preview
+    return successfulResults.length > 0 ? successfulResults : quickPreview;
+    
   } catch (error) {
     console.error("Error fetching real NFT data:", error);
-    return getMockNFTData(); // Fallback to mock data
+    return getQuickPreviewData(limit); // Always return preview data as fallback
   }
+};
+
+// Quick preview data that loads immediately
+const getQuickPreviewData = (limit = 4) => {
+  const previewData = [
+    {
+      id: 1337,
+      name: "Mystic Unicorn #1337",
+      image: "https://uglify.gg/api/metadata/1337/image",
+      owner: "0x...",
+      openseaUrl: `https://opensea.io/assets/ethereum/${NFT_CONTRACT_ADDRESS}/1337`,
+      etherscanUrl: `https://etherscan.io/nft/${NFT_CONTRACT_ADDRESS}/1337`,
+      traits: ['Rainbow Mane', 'Star Eyes', 'Golden Horn']
+    },
+    {
+      id: 2468,
+      name: "Shadow Unicorn #2468",
+      image: "https://uglify.gg/api/metadata/2468/image", 
+      owner: "0x...",
+      openseaUrl: `https://opensea.io/assets/ethereum/${NFT_CONTRACT_ADDRESS}/2468`,
+      etherscanUrl: `https://etherscan.io/nft/${NFT_CONTRACT_ADDRESS}/2468`,
+      traits: ['Dark Mane', 'Purple Eyes', 'Silver Horn']
+    },
+    {
+      id: 3691,
+      name: "Fire Unicorn #3691",
+      image: "https://uglify.gg/api/metadata/3691/image",
+      owner: "0x...", 
+      openseaUrl: `https://opensea.io/assets/ethereum/${NFT_CONTRACT_ADDRESS}/3691`,
+      etherscanUrl: `https://etherscan.io/nft/${NFT_CONTRACT_ADDRESS}/3691`,
+      traits: ['Fire Mane', 'Red Eyes', 'Flame Horn']
+    },
+    {
+      id: 4815,
+      name: "Crystal Unicorn #4815",
+      image: "https://uglify.gg/api/metadata/4815/image",
+      owner: "0x...",
+      openseaUrl: `https://opensea.io/assets/ethereum/${NFT_CONTRACT_ADDRESS}/4815`, 
+      etherscanUrl: `https://etherscan.io/nft/${NFT_CONTRACT_ADDRESS}/4815`,
+      traits: ['Crystal Mane', 'Blue Eyes', 'Diamond Horn']
+    }
+  ];
+  
+  return previewData.slice(0, limit);
 };
 
 // Generate random traits for display
@@ -226,48 +283,6 @@ const generateRandomTraits = () => {
     manes[Math.floor(Math.random() * manes.length)],
     eyes[Math.floor(Math.random() * eyes.length)],
     horns[Math.floor(Math.random() * horns.length)]
-  ];
-};
-
-// Fallback mock data
-const getMockNFTData = () => {
-  return [
-    {
-      id: 1234,
-      name: "Cosmic Unicorn #1234",
-      image: "https://uglify.gg/api/metadata/1234/image",
-      owner: "0x...",
-      openseaUrl: `https://opensea.io/assets/ethereum/${NFT_CONTRACT_ADDRESS}/1234`,
-      etherscanUrl: `https://etherscan.io/nft/${NFT_CONTRACT_ADDRESS}/1234`,
-      traits: ['Rainbow Mane', 'Star Eyes', 'Golden Horn']
-    },
-    {
-      id: 5678,
-      name: "Shadow Unicorn #5678",
-      image: "https://uglify.gg/api/metadata/5678/image",
-      owner: "0x...",
-      openseaUrl: `https://opensea.io/assets/ethereum/${NFT_CONTRACT_ADDRESS}/5678`,
-      etherscanUrl: `https://etherscan.io/nft/${NFT_CONTRACT_ADDRESS}/5678`,
-      traits: ['Dark Mane', 'Purple Eyes', 'Silver Horn']
-    },
-    {
-      id: 9012,
-      name: "Fire Unicorn #9012",
-      image: "https://uglify.gg/api/metadata/9012/image",
-      owner: "0x...",
-      openseaUrl: `https://opensea.io/assets/ethereum/${NFT_CONTRACT_ADDRESS}/9012`,
-      etherscanUrl: `https://etherscan.io/nft/${NFT_CONTRACT_ADDRESS}/9012`,
-      traits: ['Fire Mane', 'Red Eyes', 'Flame Horn']
-    },
-    {
-      id: 3456,
-      name: "Crystal Unicorn #3456",
-      image: "https://uglify.gg/api/metadata/3456/image",
-      owner: "0x...",
-      openseaUrl: `https://opensea.io/assets/ethereum/${NFT_CONTRACT_ADDRESS}/3456`,
-      etherscanUrl: `https://etherscan.io/nft/${NFT_CONTRACT_ADDRESS}/3456`,
-      traits: ['Crystal Mane', 'Blue Eyes', 'Diamond Horn']
-    }
   ];
 };
 

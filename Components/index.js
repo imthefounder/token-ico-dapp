@@ -16,6 +16,7 @@ import BackToTop from "./BackToTop";
 import SlideSection from "./SlideSection";
 import UglyUnicornsMint from "./UglyUnicornsMint";
 import BlockchainActivity from "./BlockchainActivity";
+import MetaMaskInstallPrompt from "./MetaMaskInstallPrompt";
 
 //MODEL
 import Popup from "./Popup";
@@ -45,6 +46,7 @@ export {
   SlideSection,
   UglyUnicornsMint,
   BlockchainActivity,
+  MetaMaskInstallPrompt,
   Popup,
   TransferToken,
   Owner,

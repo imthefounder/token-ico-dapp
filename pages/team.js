@@ -1,6 +1,7 @@
 import React from 'react';
 import { Header, Footer, Team, BackToTop } from "../Components";
 import { TOKEN_ICO_Context } from "../context/index";
+import { shortenAddress } from "../Utils/index";
 
 const TeamPage = () => {
   const {
@@ -8,7 +9,6 @@ const TeamPage = () => {
     CONNECT_WALLET,
     setAccount,
     setLoader,
-    shortenAddress,
     detail,
     currency,
     setOwnerModel,
